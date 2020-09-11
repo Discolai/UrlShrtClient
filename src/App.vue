@@ -2,11 +2,13 @@
   <div id="app">
     <h3>UrlShrt</h3>
     <UrlForm v-on:shorten-url="shortenUrl" />
+    <ShortUrlItem v-bind:shortUrl="shortUrl" />
   </div>
 </template>
 
 <script>
 import UrlForm from "./components/UrlForm.vue";
+import ShortUrlItem from "./components/ShortUrlItem.vue";
 
 const BASE_URL = process.env.VUE_APP_API_ENDPOINT;
 export default {
@@ -19,7 +21,8 @@ export default {
   },
 
   components: {
-    UrlForm
+    UrlForm,
+    ShortUrlItem
   },
 
   methods: {
