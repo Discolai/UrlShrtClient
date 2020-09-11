@@ -19,6 +19,10 @@
     </b-form-group>
     <b-form-group label="Slug" label-for="slug-input">
       <b-form-input id="slug-input" v-model="Slug" novalidate />
+
+      <b-form-invalid-feedback v-for="(error, i) in externalErrors.Slug" :key="i" :state="externalValid('Slug')">
+        {{ error }}
+      </b-form-invalid-feedback>
     </b-form-group>
     <b-button variant="primary" type="sumbit">Shorten</b-button>
   </form>
@@ -36,8 +40,6 @@ export default {
         Slug: this.Slug.trim() || null
       };
       this.$emit("shorten-url", longUrl);
-      this.RedirectUrl = "";
-      this.Slug = "";
     },
 
     externalValid: function(field) {
