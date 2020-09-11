@@ -1,19 +1,46 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h3>UrlShrt</h3>
+    <UrlForm v-on:shorten-url="shortenUrl" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import UrlForm from "./components/UrlForm.vue";
 
+const BASE_URL = process.env.VUE_APP_API_ENDPOINT;
 export default {
-  name: 'App',
+  name: "App",
+  data: function() {
+    return {
+      shortUrl: null,
+      formErrors: []
+    };
+  },
+
   components: {
-    HelloWorld
+    UrlForm
+  },
+
+  methods: {
+    shortenUrl(longUrl) {
+      fetch(`${BASE_URL}/u`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        },
+        body: JSON.stringify(longUrl)
+      })
+        .then((res) => {
+          if (res.ok) return res.json();
+          else return Promise.reject(res);
+        })
+        .then((data) => (this.shortUrl = data))
+        .catch((err) => err.json())
+        .then((data) => (this.formErrors = data.errors));
+    }
   }
-}
+};
 </script>
 
 <style>
