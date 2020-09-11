@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <h3>UrlShrt</h3>
-    <UrlForm v-on:shorten-url="shortenUrl" />
-    <ShortUrlItem v-bind:shortUrl="shortUrl" />
+    <b-container>
+      <h3>UrlShrt</h3>
+      <UrlForm v-on:shorten-url="shortenUrl" :externalErrors="formErrors" />
+      <ShortUrlItem v-if="shortUrl" v-bind:shortUrl="shortUrl" />
+    </b-container>
   </div>
 </template>
 
@@ -16,7 +18,7 @@ export default {
   data: function() {
     return {
       shortUrl: null,
-      formErrors: []
+      formErrors: {}
     };
   },
 
@@ -38,21 +40,16 @@ export default {
           if (res.ok) return res.json();
           else return Promise.reject(res);
         })
-        .then((data) => (this.shortUrl = data))
-        .catch((err) => err.json())
-        .then((data) => (this.formErrors = data.errors));
+        .then((data) => {
+          this.shortUrl = data;
+          this.formErrors = [];
+        })
+        .catch((err) => {
+          err.json().then((data) => (this.formErrors = data.errors));
+        });
     }
   }
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
