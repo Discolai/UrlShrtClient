@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <b-container>
-      <h3>UrlShrt</h3>
-      <UrlForm v-on:shorten-url="shortenUrl" :externalErrors="formErrors" />
-      <ShortUrlItem v-if="shortUrl" v-bind:shortUrl="shortUrl" />
+    <b-container class="main-container">
+      <div class="main-wrapper mx-auto">
+        <h3>UrlShrt</h3>
+        <UrlForm v-on:shorten-url="shortenUrl" :externalErrors="formErrors" />
+        <ShortUrlItem v-if="shortUrl" v-bind:shortUrl="shortUrl" />
+      </div>
     </b-container>
   </div>
 </template>
@@ -52,4 +54,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.main-wrapper {
+  max-width: 60%;
+  min-width: 30%;
+  padding-top: 10%;
+}
+#app {
+  height: 100vh;
+}
+</style>
