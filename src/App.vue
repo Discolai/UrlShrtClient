@@ -2,9 +2,17 @@
   <div id="app">
     <b-container class="main-container">
       <div class="main-wrapper mx-auto">
-        <h3>UrlShrt</h3>
-        <UrlForm v-on:shorten-url="shortenUrl" :externalErrors="formErrors" />
-        <ShortUrlItem v-if="shortUrl" v-bind:shortUrl="shortUrl" />
+        <header class="d-flex align-items-center">
+          <img src="/logo.svg" alt="" width="64" height="auto" />
+          <h1 class="ml-3">UrlShrt</h1>
+        </header>
+        <section class="h2 mt-4">
+          A simple and customizable url shortener
+        </section>
+        <div class="short-section">
+          <UrlForm v-if="shortUrl === null" class="mt-4" v-on:shorten-url="shortenUrl" :externalErrors="formErrors" />
+          <ShortUrlItem v-if="shortUrl" v-bind:shortUrl="shortUrl" @reset-shortUrl="resetUrl" />
+        </div>
       </div>
     </b-container>
   </div>
@@ -31,7 +39,7 @@ export default {
 
   methods: {
     shortenUrl(longUrl) {
-      fetch(`${BASE_URL}/u`, {
+      fetch(`${BASE_URL}u`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=UTF-8"
@@ -43,12 +51,15 @@ export default {
           else return Promise.reject(res);
         })
         .then((data) => {
-          this.shortUrl = data;
+          this.shortUrl = data.data;
           this.formErrors = [];
         })
         .catch((err) => {
           err.json().then((data) => (this.formErrors = data.errors));
         });
+    },
+    resetUrl() {
+      this.shortUrl = null;
     }
   }
 };
@@ -56,9 +67,12 @@ export default {
 
 <style>
 .main-wrapper {
-  max-width: 60%;
+  max-width: 80%;
   min-width: 30%;
-  padding-top: 10%;
+  padding-top: 5%;
+}
+.short-section {
+  margin-top: 5rem;
 }
 #app {
   height: 100vh;

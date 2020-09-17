@@ -1,30 +1,40 @@
 <template lang="html">
-  <form class="form" v-on:submit="handleSubmit">
-    <b-form-group label="Redirect url" label-for="url-input">
-      <b-form-input
-        id="url-input"
-        v-model="RedirectUrl"
-        placeholder="https://example.com"
-        :state="externalValid('RedirectUrl')"
-        novalidate
-      />
+  <!-- form-inline align-items-start justify-content-between -->
+  <form class="" v-on:submit="handleSubmit">
+    <div class="form-row">
+      <b-form-group class="form-grouping col-sm-12 col-md-5">
+        <b-input-group prepend="Url">
+          <b-form-input
+            class="form-control-lg"
+            id="url-input"
+            v-model="RedirectUrl"
+            placeholder="https://example.com"
+            :state="externalValid('RedirectUrl')"
+            novalidate
+          />
+        </b-input-group>
 
-      <b-form-invalid-feedback
-        v-for="(error, i) in externalErrors.RedirectUrl"
-        :key="i"
-        :state="externalValid('RedirectUrl')"
-      >
-        {{ error }}
-      </b-form-invalid-feedback>
-    </b-form-group>
-    <b-form-group label="Slug" label-for="slug-input">
-      <b-form-input id="slug-input" v-model="Slug" novalidate />
+        <b-form-invalid-feedback
+          v-for="(error, i) in externalErrors.RedirectUrl"
+          :key="i"
+          :state="externalValid('RedirectUrl')"
+        >
+          {{ error }}
+        </b-form-invalid-feedback>
+      </b-form-group>
+      <b-form-group class="form-grouping col-sm-12 col-md-6">
+        <b-input-group :prepend="apiEndpoint">
+          <b-form-input class="form-control-lg" id="slug-input" v-model="Slug" novalidate />
+        </b-input-group>
 
-      <b-form-invalid-feedback v-for="(error, i) in externalErrors.Slug" :key="i" :state="externalValid('Slug')">
-        {{ error }}
-      </b-form-invalid-feedback>
-    </b-form-group>
-    <b-button variant="primary" type="sumbit">Shorten</b-button>
+        <b-form-invalid-feedback v-for="(error, i) in externalErrors.Slug" :key="i" :state="externalValid('Slug')">
+          {{ error }}
+        </b-form-invalid-feedback>
+      </b-form-group>
+      <b-form-group class="col-sm-12 col-md-1">
+        <b-button class="btn-lg" variant="primary" type="sumbit">Shorten</b-button>
+      </b-form-group>
+    </div>
   </form>
 </template>
 
@@ -55,8 +65,16 @@ export default {
     };
   },
 
-  computed: {}
+  computed: {
+    apiEndpoint() {
+      return process.env.VUE_APP_API_ENDPOINT;
+    }
+  }
 };
 </script>
 
-<style lang="css" scoped></style>
+<style lang="scss" scoped>
+.form-grouping {
+  max-width: 19.5rem !important;
+}
+</style>
