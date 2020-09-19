@@ -10,8 +10,17 @@
           A simple and customizable url shortener
         </section>
         <div class="short-section">
-          <UrlForm v-if="shortUrl === null" class="mt-4" v-on:shorten-url="shortenUrl" :externalErrors="formErrors" />
-          <ShortUrlItem v-if="shortUrl" v-bind:shortUrl="shortUrl" @reset-shortUrl="resetUrl" />
+          <UrlForm
+            v-if="shortUrl === null"
+            class="mt-4"
+            v-on:shorten-url="shortenUrl"
+            :externalErrors="formErrors"
+          />
+          <ShortUrlItem
+            v-if="shortUrl"
+            v-bind:shortUrl="shortUrl"
+            @reset-shortUrl="resetUrl"
+          />
         </div>
       </div>
     </b-container>
@@ -22,10 +31,11 @@
 import UrlForm from "./components/UrlForm.vue";
 import ShortUrlItem from "./components/ShortUrlItem.vue";
 
-const BASE_URL = process.env.VUE_APP_API_ENDPOINT;
+import getEnv from "@/helpers/env.js";
+
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     return {
       shortUrl: null,
       formErrors: {}
@@ -39,7 +49,7 @@ export default {
 
   methods: {
     shortenUrl(longUrl) {
-      fetch(`${BASE_URL}u`, {
+      fetch(`${getEnv("VUE_APP_API_ENDPOINT")}u`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=UTF-8"
