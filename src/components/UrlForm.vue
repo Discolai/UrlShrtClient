@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import getEnv from "@/helpers/env.js";
+
 export default {
   name: "UrlForm",
   props: ["externalErrors"],
@@ -66,9 +68,10 @@ export default {
   },
 
   computed: {
-    apiEndpoint() {
-      return process.env.VUE_APP_API_ENDPOINT;
-    }
+    apiEndpoint: () => getEnv("VUE_APP_API_ENDPOINT")
+    // apiEndpoint() {
+    //   return process.env.VUE_APP_API_ENDPOINT;
+    // }
   }
 };
 </script>
